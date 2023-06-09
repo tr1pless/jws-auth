@@ -1,0 +1,8 @@
+.spinnerContainer {
+  width: 100wh;
+  height: 100vh;
+  display: flex;
+  margin: auto;
+  flex-wrap: nowrap;
+  align-items: center;
+}
