@@ -3,12 +3,50 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  height: 400px;
-  width: 400px;
+  height: 440px;
+  width: 380px;
   background: linear-gradient(
     229deg,
-    rgb(12 12 235 / 11%) 0%,
-    rgb(8 168 240 / 15%) 49%,
-    rgba(255, 255, 255, 0.4822303921568627) 100%
+    rgb(202 5 5 / 70%) 0%,
+    rgb(2 4 4 / 59%) 49%,
+    rgb(20 3 223 / 48%) 100%
   );
+  box-shadow: 1px 0px 78px 11px rgb(2 12 17) inset,
+    1px 0px 10px 5px rgba(0, 0, 0, 0.59);
+}
+
+.passwordWrp {
+  width: 60%;
+  position: relative;
+}
+.showBtn {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  height: 100%;
+  background: none;
+  border: none;
+}
+.loginform__input {
+  width: 100%;
+  height: 30px;
+  background: #092a30d6;
+  border: 1px solid #464343;
+  padding: 0 5px;
+  border-radius: 5px;
+  outline: none;
+  color: #f59494;
+}
+
+input :focus {
+  outline: none;
+}
+
+.logsigWrp {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin-bottom: 10px;
 }

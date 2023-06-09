@@ -63,8 +63,6 @@ export default class Store {
         withCredentials: true,
         baseURL: API_URL,
       })
-      console.log(response)
-      console.log(response.data.user)
       localStorage.setItem('token', response.data.accessToken)
       this.setAuth(true)
       this.setUser(response.data.user)
