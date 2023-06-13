@@ -4,6 +4,7 @@
 }
 
 .container {
+  z-index: 5;
   display: flex;
   width: 1024px;
   min-height: 100vh;
