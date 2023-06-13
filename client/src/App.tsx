@@ -10,22 +10,16 @@ import { Background } from './components/Background/Background'
 
 const App: FC = () => {
   const { store } = useContext(Context)
-
-  // const [users, setUsers] = useState<IUser[]>([])
-
+  useEffect(() => {
+    if (store.todoListArray.length < 1) {
+      store.todoList()
+    }
+  }, [])
   useEffect(() => {
     if (localStorage.getItem('token')) {
       store.checkAuth()
-      console.log(store.isAuth)
     }
   }, [])
-
-  // async function getUsers() {
-  // try {
-  // const response = await UserService.fetchUsers()
-  // setUsers(response.data)
-  // } catch (e) {}
-  // }
 
   if (store.isLoading) {
     return (
@@ -54,15 +48,6 @@ const App: FC = () => {
       <Background />
       <div>
         <InnerApp />
-        {/* <h1> */}
-        {/* {store.isAuth */}
-        {/* ? `Привет ${store.user ? store.user.email : ''}` 
-             {/* : `Авторизуйтесь`} 
-        {/* </h1> */}
-        {/* <button onClick={getUsers}> получить пользователей</button> */}
-        {/* {users.map((user) => ( */}
-        {/* <div key={user.email}>{user.email}</div> */}
-        {/* ))} */}
       </div>
     </>
   )

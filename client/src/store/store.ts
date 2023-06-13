@@ -3,12 +3,15 @@ import { IUser } from '../models/IUser'
 import AuthService from '../services/AuthService'
 import axios from 'axios'
 import { AuthResponse } from '../models/response/AuthResponse'
+
 import { API_URL } from '../http'
+import TodoService from '../services/TodoService'
 
 export default class Store {
   user = {} as IUser
   isAuth = false
   isLoading = false
+  todoListArray: any[] = []
   constructor() {
     makeAutoObservable(this)
   }
@@ -20,6 +23,9 @@ export default class Store {
   }
   setLoading(bool: boolean) {
     this.isLoading = bool
+  }
+  setTodoListArray(array: any[]) {
+    this.todoListArray = array
   }
   async login(email: string, password: string) {
     try {
@@ -70,6 +76,28 @@ export default class Store {
       console.log(e.response?.data?.message)
     } finally {
       this.setLoading(false)
+    }
+  }
+  async addTodo(title: string, description: string, deadline: string) {
+    try {
+      const response = await TodoService.addTodo(
+        this.user.id,
+        title,
+        description,
+        deadline,
+      )
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
+    }
+  }
+  async todoList() {
+    try {
+      const response = await TodoService.todoList()
+      const list = response.data.filter((item) => item.user === this.user.id)
+      this.setTodoListArray([...list])
+      console.log(this.todoListArray[0].title)
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
     }
   }
 }
