@@ -1,27 +1,24 @@
-import React, { FC, useContext, useState } from 'react'
+import React, { FC, useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../..'
 import s from './innerApp.module.css'
+import TodoList from '../TodoList/TodoList'
 
 const InnerApp: FC = () => {
+  const { store } = useContext(Context)
+
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState('')
   const [showList, setShowList] = useState(false)
+  const [refresh, setRefresh] = useState(false)
 
-  const { store } = useContext(Context)
+  const todoArray = store.todoListArray
+
   return (
     <div className='container'>
       <div className={s.todoList}>
-        {showList
-          ? store.todoListArray.map((item) => (
-              <div className={s.todoList__item}>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <p>{item.deadline}</p>
-              </div>
-            ))
-          : null}
+        <TodoList />
       </div>
       <div className={s.todoForm}>
         <input
@@ -50,7 +47,6 @@ const InnerApp: FC = () => {
           Add New Todo
         </button>
       </div>
-      <button onClick={() => setShowList(!showList)}>list</button>
     </div>
   )
 }
