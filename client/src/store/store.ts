@@ -3,12 +3,15 @@ import { IUser } from '../models/IUser'
 import AuthService from '../services/AuthService'
 import axios from 'axios'
 import { AuthResponse } from '../models/response/AuthResponse'
+import { nanoid } from 'nanoid'
 import { API_URL } from '../http'
+import TodoService from '../services/TodoService'
 
 export default class Store {
   user = {} as IUser
   isAuth = false
   isLoading = false
+  todoListArray: any[] = []
   constructor() {
     makeAutoObservable(this)
   }
@@ -21,10 +24,13 @@ export default class Store {
   setLoading(bool: boolean) {
     this.isLoading = bool
   }
+  setTodoListArray(array: any[]) {
+    this.todoListArray = array
+  }
+
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password)
-      console.log(response)
 
       localStorage.setItem('token', response.data.accessToken)
       this.setAuth(true)
@@ -36,7 +42,6 @@ export default class Store {
   async registration(email: string, password: string) {
     try {
       const response = await AuthService.registration(email, password)
-      console.log(response)
       localStorage.setItem('token', response.data.accessToken)
       this.setAuth(true)
       this.setUser(response.data.user)
@@ -70,6 +75,47 @@ export default class Store {
       console.log(e.response?.data?.message)
     } finally {
       this.setLoading(false)
+    }
+  }
+  async addTodo(title: string, description: string, deadline: string) {
+    try {
+      const id = nanoid()
+      const response = await TodoService.addTodo(
+        this.user.id,
+        title,
+        description,
+        id,
+        deadline,
+      )
+      this.todoList()
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
+    }
+  }
+
+  async removeTodo(id: string) {
+    try {
+      const response = await TodoService.removeTodo(id)
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
+    }
+  }
+  async todoList() {
+    try {
+      const response = await TodoService.todoList()
+      const data = response.data
+
+      if (!this.user.id) {
+        const timer = setTimeout(() => {
+          const list = data.filter((item) => item.user == this.user.id)
+          this.setTodoListArray([...list])
+        }, 300)
+      } else {
+        const list = data.filter((item) => item.user == this.user.id)
+        this.setTodoListArray([...list])
+      }
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
     }
   }
 }
