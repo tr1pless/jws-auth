@@ -7,13 +7,21 @@ export default class TodoService {
     user: string,
     title: string,
     description: string,
+    idItem: string,
     deadline?: string,
   ): Promise<AxiosResponse<TodoResponse>> {
     return $api.post<TodoResponse>('/addTodo', {
       user,
       title,
       description,
+      idItem,
       deadline,
+    })
+  }
+
+  static async removeTodo(id: string): Promise<AxiosResponse<TodoResponse>> {
+    return $api.post<TodoResponse>('/removeTodo', {
+      id,
     })
   }
   static todoList(): Promise<AxiosResponse<TodoResponse[]>> {
