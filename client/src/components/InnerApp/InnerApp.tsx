@@ -10,11 +10,12 @@ const InnerApp: FC = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState('')
-  const [showList, setShowList] = useState(false)
-  const [refresh, setRefresh] = useState(false)
 
-  const todoArray = store.todoListArray
-
+  useEffect(() => {
+    if (store.user == undefined) {
+      window.location.reload()
+    }
+  }, [])
   return (
     <div className='container'>
       <div className={s.todoList}>

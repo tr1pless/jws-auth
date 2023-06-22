@@ -10,6 +10,7 @@ import { Background } from './components/Background/Background'
 
 const App: FC = () => {
   const { store } = useContext(Context)
+
   useEffect(() => {
     if (store.todoListArray.length < 1) {
       store.todoList()

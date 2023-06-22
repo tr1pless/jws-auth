@@ -5,7 +5,6 @@ import s from '../InnerApp/innerApp.module.css'
 function TodoList() {
   const { store } = useContext(Context)
   const [showList, setShowList] = useState(true)
-  const [refresh, setRefresh] = useState(false)
   const todoArray = store.todoListArray
   useEffect(() => {
     if (todoArray.length > 0) {
