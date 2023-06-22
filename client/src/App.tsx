@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { FC, useContext, useEffect } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { Context } from '.'
 import LoginForm from './components/LoginForm/LoginForm'
 import Header from './components/Header/Header'
@@ -10,12 +10,13 @@ import { Background } from './components/Background/Background'
 
 const App: FC = () => {
   const { store } = useContext(Context)
+  const [loading, setLoading] = useState(store.isLoading)
 
   useEffect(() => {
     if (store.todoListArray.length < 1) {
       store.todoList()
     }
-  }, [])
+  }, [store.todoListArray.length])
   useEffect(() => {
     if (localStorage.getItem('token')) {
       store.checkAuth()
