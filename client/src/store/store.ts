@@ -12,6 +12,7 @@ export default class Store {
   isAuth = false
   isLoading = false
   todoListArray: any[] = []
+  refresh = false
   constructor() {
     makeAutoObservable(this)
   }
@@ -26,6 +27,9 @@ export default class Store {
   }
   setTodoListArray(array: any[]) {
     this.todoListArray = array
+  }
+  setRefresh(bool: boolean) {
+    this.refresh = bool
   }
 
   async login(email: string, password: string) {
@@ -87,7 +91,7 @@ export default class Store {
         id,
         deadline,
       )
-      this.todoList()
+      await this.todoList()
     } catch (e: any) {
       console.log(e.response?.data?.message)
     }
@@ -96,6 +100,7 @@ export default class Store {
   async removeTodo(id: string) {
     try {
       const response = await TodoService.removeTodo(id)
+      await this.todoList()
     } catch (e: any) {
       console.log(e.response?.data?.message)
     }
@@ -109,7 +114,7 @@ export default class Store {
         const timer = setTimeout(() => {
           const list = data.filter((item) => item.user == this.user.id)
           this.setTodoListArray([...list])
-        }, 300)
+        }, 500)
       } else {
         const list = data.filter((item) => item.user == this.user.id)
         this.setTodoListArray([...list])
