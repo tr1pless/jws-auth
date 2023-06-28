@@ -123,4 +123,11 @@ export default class Store {
       console.log(e.response?.data?.message)
     }
   }
+  async checkDeadline(id: string) {
+    try {
+      const response = await TodoService.checkDeadline(id) // закончил тут. из компонента нужно передавать айди просроченной тудушки, который будет отправляться на сервер и искать нужный туду.
+    } catch (e: any) {
+      console.log(e.response?.data?.message, 'deadline check error')
+    }
+  }
 }

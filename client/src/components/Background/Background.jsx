@@ -28,7 +28,9 @@ export const Background = () => {
             style={returnRandom()}
             className={`${s.bgChilds}  ${s.bgChild}${children}`}
             key={+children}
-          ></div>
+          >
+            
+          </div>
         )
       })}
     </div>

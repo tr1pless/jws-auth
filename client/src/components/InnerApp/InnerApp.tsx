@@ -7,11 +7,6 @@ import TodoList from '../TodoList/TodoList'
 const InnerApp: FC = () => {
   const { store } = useContext(Context)
 
-  // useEffect(() => {
-  // if (store.user == undefined) {
-  // window.location.reload()
-  // }
-  // }, [])
   return (
     <div>
       <TodoList />
