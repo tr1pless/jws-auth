@@ -9,7 +9,6 @@ class TodoService {
       idItem,
       deadline,
     })
-    console.log(todo)
     return todo
   }
 
@@ -21,8 +20,15 @@ class TodoService {
 
   async todoList() {
     const list = await TodoModel.find()
-    console.log(list)
     return list
+  }
+
+  async checkDeadline(id) {
+    const match = await TodoModel.findOneAndUpdate(
+      { idItem: id },
+      { expired: true },
+    )
+    return match
   }
 }
 

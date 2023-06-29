@@ -20,5 +20,6 @@ router.get('/users', authMiddleware, userController.getUsers)
 router.post('/addTodo', todoController.addTodo)
 router.get('/getList', todoController.todoList)
 router.post('/removeTodo', todoController.removeTodo)
+router.post('/checkDeadline', todoController.checkDeadline)
 
 module.exports = router

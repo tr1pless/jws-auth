@@ -25,14 +25,8 @@ class TodoController {
 
   async removeTodo(req, res, next) {
     try {
-      // const errors = validationResult(req)
-      // if (!errors.isEmpty()) {
-      // return next(ApiError.BadRequest('Validation error', errors.array()))
-      // }
       const { id } = req.body
       const todoData = await todoService.removeTodo(id)
-      console.log(id)
-      console.log(todoData)
       return res.json(todoData)
     } catch (e) {
       next(e)
@@ -46,5 +40,16 @@ class TodoController {
       next(e)
     }
   }
+
+  async checkDeadline(req, res, next) {
+    try {
+      const { id } = req.body
+      const deadlineData = await todoService.checkDeadline(id)
+      return res.json(deadlineData)
+    } catch (e) {
+      next(e)
+    }
+  }
 }
+
 module.exports = new TodoController()

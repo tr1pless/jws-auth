@@ -32,6 +32,9 @@ export default class Store {
     this.refresh = bool
   }
 
+  updateTodoList(newArray: any[]) {
+    this.todoListArray = newArray
+  }
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password)
@@ -43,6 +46,7 @@ export default class Store {
       console.log(e.response?.data?.message)
     }
   }
+
   async registration(email: string, password: string) {
     try {
       const response = await AuthService.registration(email, password)
@@ -121,6 +125,14 @@ export default class Store {
       }
     } catch (e: any) {
       console.log(e.response?.data?.message)
+      window.location.reload()
+    }
+  }
+  async checkDeadline(id: string) {
+    try {
+      const response = await TodoService.checkDeadline(id) // закончил тут. из компонента нужно передавать айди просроченной тудушки, который будет отправляться на сервер и искать нужный туду.
+    } catch (e: any) {
+      console.log(e.response?.data?.message, 'deadline check error')
     }
   }
 }
