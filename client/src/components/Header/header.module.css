@@ -1,0 +1,41 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  background: linear-gradient(
+    180deg,
+    rgb(19 12 84 / 50%) 21%,
+    rgb(66 5 5 / 26%) 69%
+  );
+  color: #f8f7fd;
+  font-size: 17px;
+}
+
+.timeWrp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  margin: 0;
+}
+.exitIcon {
+  fill: #d1e7ee;
+}
+.exitBtn {
+  border: none;
+  background: none;
+  margin: 0 15px;
+  padding: 7px 0 0;
+  transition: 0.5s;
+}
+
+.exitBtn:hover {
+  transform: scale(1.2);
+}

@@ -10,18 +10,32 @@ import { Background } from './components/Background/Background'
 
 const App: FC = () => {
   const { store } = useContext(Context)
-  const [loading, setLoading] = useState(store.isLoading)
+  const [user, setUser] = useState(store.user)
+
+  useEffect(() => {
+    if (!store.isLoading) {
+      setUser(store.user)
+    }
+  }, [])
 
   useEffect(() => {
     if (store.todoListArray.length < 1) {
       store.todoList()
     }
   }, [store.todoListArray.length])
+
   useEffect(() => {
     if (localStorage.getItem('token')) {
       store.checkAuth()
     }
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      console.log('user error', store.user)
+      window.location.reload()
+    }
+  }, [user])
 
   if (store.isLoading) {
     return (

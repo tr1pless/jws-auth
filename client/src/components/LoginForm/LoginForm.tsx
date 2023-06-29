@@ -7,7 +7,6 @@ const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
   const { store } = useContext(Context)
 
   function handleEnter(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -15,12 +14,13 @@ const LoginForm: FC = () => {
       store.login(email, password)
     }
   }
+  const handleShow = () => setShow(!show)
 
   return (
     <>
       <div className='container'>
         <div onKeyDown={(event) => handleEnter(event)} className={s.loginform}>
-          <h1 className={s.loginform__title}>Lorem, ipsum.</h1>
+          <h1 className={s.loginform__title}>Login or register</h1>
 
           <div className={s.inputWrp}>
             <input
@@ -39,9 +39,21 @@ const LoginForm: FC = () => {
               type={show ? `text` : `password`}
               placeholder='Password'
             ></input>
-            <button className={s.showBtn} onClick={handleClick}>
+            <button className={s.showBtn} onClick={handleShow}>
               <svg
-                style={{ opacity: '0.8' }}
+                style={
+                  show
+                    ? {
+                        transition: 'all 0.5s',
+                        opacity: '0.8',
+                        fill: '#ac8ab5',
+                      }
+                    : {
+                        transition: 'all 0.5s',
+                        opacity: '0.8',
+                        fill: '#19a08b',
+                      }
+                }
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'
@@ -53,16 +65,16 @@ const LoginForm: FC = () => {
           </div>
           <div className={s.logsigWrp}>
             <button
-              className={s.loginform__login}
+              className={`${s.loginform__login} ${s.formBtn}`}
               onClick={() => store.login(email, password)}
             >
-              Log in
+              <span>LogIn</span>
             </button>
             <button
-              className={s.loginform__signin}
+              className={`${s.loginform__signin} ${s.formBtn}`}
               onClick={() => store.registration(email, password)}
             >
-              Sign In
+              <span>SignIn</span>
             </button>
           </div>
         </div>
