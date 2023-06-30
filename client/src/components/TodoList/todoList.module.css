@@ -7,7 +7,14 @@
 .todoList {
   width: 500px;
 }
-.todoElemsWrp {
+.refreshBtn {
+  border: none;
+  background: none;
+  position: absolute;
+  top: -20px;
+  right: 10px;
+  fill: #b62828;
+  transition: all 1s;
 }
 .descriptionInput,
 input {
@@ -33,32 +40,59 @@ textarea::placeholder {
 .deleteItem {
   background: none;
   border: none;
-  fill: #00000085;
+  fill: #b62828;
   transition: 0.4s;
+  margin: 5px;
+}
+.itemTitle {
+  margin: 5px 10px;
 }
 .deleteItem:hover {
   transform: scale(1.2);
   fill: #911818ba;
 }
+
 .descriptionBtn {
   background: none;
   border: none;
+  margin: 5px 10px 5px 5px;
+  fill: #b62828;
 }
-
+.todoListWrp {
+  background: linear-gradient(135deg, #e0a78b61 0%, #85b7d1ba 100%);
+  border: 2px solid #0000ff30;
+  border-radius: 30px;
+  margin: 10px 0;
+}
 .todoList__item {
   overflow: hidden;
   white-space: normal;
   width: 100%;
   transition: all 1s;
   position: relative;
+  display: flex;
 }
 .activeItem {
   transition: 2s;
   opacity: 1;
+  margin: 10px 30px;
+  text-align: center;
 }
 .disabledItem {
   position: absolute;
-  top: -100%;
+  right: -300%;
   transition: 1s;
   opacity: 0;
+  margin: 10px 30px;
+  text-align: center;
+}
+
+.deadline {
+  margin: 8px 5px 5px auto;
+}
+.addBtn {
+  margin: 10px 0 0;
+  fill: #b62828;
+  background: none;
+  border: none;
 }
