@@ -111,7 +111,9 @@ function TodoList() {
       { title: title, description: description, deadline: deadline },
     ]
     setTodoList([...todoList, ...newObj])
-
+    setDescription('')
+    setTitle('')
+    setDeadline('')
     handleList()
   }
   const dateToNumbers = (s: string) => {
@@ -137,87 +139,105 @@ function TodoList() {
   return (
     <>
       <div className='container'>
-        <div>
+        <div style={{ position: 'relative' }}>
+          <button
+            style={
+              refresh
+                ? { transform: 'rotate(720deg)' }
+                : { transform: 'rotate(0deg)' }
+            }
+            className={s.refreshBtn}
+            onClick={() => handleList()}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+            >
+              <path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z' />
+            </svg>
+          </button>
+
           <div className={s.todoList}>
             {showList && refresh != true
               ? todoList.map((item: TodoItem) => (
-                  <div key={item.idItem}>
-                    <div
-                      id={item.idItem}
-                      key={item.idItem}
-                      // style={
-                      // activeEls.find(
-                      // (i: { id: string }) => i.id === item.idItem,
-                      // )
-                      // ? { transition: '1s' }
-                      // : { overflow: 'hidden', transition: '1s' }
-                      // }
-                      className={s.todoList__item}
-                    >
-                      <button
-                        className={s.deleteItem}
+                  <div className={s.todoListWrp}>
+                    <div key={item.idItem}>
+                      <div
                         id={item.idItem}
-                        onClick={() => deleteHandler(item.idItem)}
+                        key={item.idItem}
+                        className={s.todoList__item}
                       >
-                        <svg
+                        <button
+                          className={s.deleteItem}
                           id={item.idItem}
-                          xmlns='http://www.w3.org/2000/svg'
-                          width='24'
-                          height='19'
-                          viewBox='0 0 24 24'
+                          onClick={() => deleteHandler(item.idItem)}
                         >
-                          <path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.5 16.084l-1.403 1.416-4.09-4.096-4.102 4.096-1.405-1.405 4.093-4.092-4.093-4.098 1.405-1.405 4.088 4.089 4.091-4.089 1.416 1.403-4.092 4.087 4.092 4.094z' />
-                        </svg>
-                      </button>
-                      <h3>{item.title}</h3>
-                      <p
-                        className={
-                          activeEls.find(
-                            (i: { id: string }) => i.id === item.idItem,
-                          )
-                            ? s.activeItem
-                            : s.disabledItem
-                        }
-                      >
-                        {item.description}
-                      </p>
-                      <button
-                        style={
-                          activeEls.find(
-                            (i: { id: string }) => i.id === item.idItem,
-                          )
-                            ? { transition: '1s', transform: 'rotate(180deg)' }
-                            : { overflow: 'hidden', transition: '1s' }
-                        }
-                        id={item.idItem}
-                        className={s.descriptionBtn}
-                        onClick={(e) => {
-                          handleActive(e)
-                        }}
-                      >
-                        <svg
+                          <svg
+                            id={item.idItem}
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='24'
+                            height='19'
+                            viewBox='0 0 24 24'
+                          >
+                            <path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.5 16.084l-1.403 1.416-4.09-4.096-4.102 4.096-1.405-1.405 4.093-4.092-4.093-4.098 1.405-1.405 4.088 4.089 4.091-4.089 1.416 1.403-4.092 4.087 4.092 4.094z' />
+                          </svg>
+                        </button>
+                        <h3 className={s.itemTitle}>{item.title}</h3>
+
+                        <p
+                          className={s.deadline}
+                          style={
+                            item.expired ? { color: 'red' } : { color: 'black' }
+                          }
+                        >
+                          {item.deadline ? item.deadline : 'without deadline'}
+                        </p>
+                        <button
+                          style={
+                            activeEls.find(
+                              (i: { id: string }) => i.id === item.idItem,
+                            )
+                              ? {
+                                  transition: '1s',
+                                  transform: 'rotate(180deg)',
+                                }
+                              : { overflow: 'hidden', transition: '1s' }
+                          }
                           id={item.idItem}
-                          width='24'
-                          height='24'
-                          xmlns='http://www.w3.org/2000/svg'
-                          fillRule='evenodd'
-                          clipRule='evenodd'
+                          className={s.descriptionBtn}
+                          onClick={(e) => {
+                            handleActive(e)
+                          }}
                         >
-                          <path d='M0 3l12 18 12-18h-24zm12 16.197l-10.132-15.197h20.263l-10.131 15.197' />
-                        </svg>
-                      </button>
-                      <p
-                        style={
-                          item.expired ? { color: 'red' } : { color: 'black' }
-                        }
-                      >
-                        {item.deadline ? item.deadline : 'without deadline'}
-                      </p>
+                          <svg
+                            id={item.idItem}
+                            width='24'
+                            height='24'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fillRule='evenodd'
+                            clipRule='evenodd'
+                          >
+                            <path d='M0 3l12 18 12-18h-24zm12 16.197l-10.132-15.197h20.263l-10.131 15.197' />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
+                    <p
+                      className={
+                        activeEls.find(
+                          (i: { id: string }) => i.id === item.idItem,
+                        )
+                          ? s.activeItem
+                          : s.disabledItem
+                      }
+                    >
+                      {item.description}
+                    </p>
                   </div>
                 ))
-              : 'loading...'}
-            <button onClick={() => handleList()}>refresh</button>
+              : null}
           </div>
           <div className={s.todoList}></div>
           <div className={s.todoForm}>
@@ -245,11 +265,19 @@ function TodoList() {
               onChange={(e) => setDescription(e.target.value)}
             />
             <button
+              className={s.addBtn}
               onClick={() => {
                 addHandler()
               }}
             >
-              Add New Todo
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+              >
+                <path d='M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z' />
+              </svg>
             </button>
           </div>
         </div>
