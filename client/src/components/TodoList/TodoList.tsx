@@ -162,8 +162,8 @@ function TodoList() {
           <div className={s.todoList}>
             {showList && refresh != true
               ? todoList.map((item: TodoItem) => (
-                  <div className={s.todoListWrp}>
-                    <div key={item.idItem}>
+                  <div key={item.idItem} className={s.todoListWrp}>
+                    <div>
                       <div
                         id={item.idItem}
                         key={item.idItem}

@@ -47,11 +47,13 @@ const LoginForm: FC = () => {
                         transition: 'all 0.5s',
                         opacity: '0.8',
                         fill: '#ac8ab5',
+                        margin: '12px 0 0',
                       }
                     : {
                         transition: 'all 0.5s',
                         opacity: '0.8',
                         fill: '#19a08b',
+                        margin: '12px 0 0',
                       }
                 }
                 xmlns='http://www.w3.org/2000/svg'
