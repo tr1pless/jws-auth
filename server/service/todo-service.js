@@ -2,6 +2,10 @@ const TodoModel = require('../models/todo-model')
 
 class TodoService {
   deadlines = []
+
+  setDeadlines(deadlineArr) {
+    this.deadlines = deadlineArr
+  }
   async addTodo(user, title, description, idItem, deadline) {
     const todo = await TodoModel.create({
       user,
@@ -34,33 +38,16 @@ class TodoService {
   async deadlineArray() {
     const match = await TodoModel.find()
     const result = match.filter((item) => item.deadline !== '')
-    this.deadlines.push(result)
+    this.setDeadlines(result)
   }
-  // async almostExpired() {
-  // const time = new Date()
-  // const year = time.getFullYear()
-  // const month = time.getMonth() + 1
-  // const day = time.getDate()
-  // const dateTime = time.toLocaleTimeString('en-GB', {
-  // hour: 'numeric',
-  // minute: 'numeric',
-  // hour12: false,
-  // })
-
-  // let date = `${year}.${month < 10 ? `0${month}` : month}.${
-  // day < 10 ? `0${day}` : day
-  // }`
-  // const dateToNumbers = (s) => {
-  // const pattern = /[^0-9]/g
-  // const result = s.replace(pattern, '')
-  // return result
-  // }
-  // const result = await TodoModel.find((item) => {
-  // if (item.deadline !== '') {
-  // console.log(item.deadline)
-  // }
-  // })
-  // }
+  async hours3Left(id) {
+    const match = await TodoModel.findOneAndUpdate(
+      { idItem: id },
+      { notice3h: true },
+    )
+    console.log(match)
+    return match
+  }
 }
 
 module.exports = new TodoService()
