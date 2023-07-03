@@ -3,9 +3,11 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
+const cron = require('node-cron')
+
+const todoService = require('./service/todo-service')
 const router = require('./router/index')
 const errorMiddleware = require('./middlewares/error-middleware')
-
 const PORT = process.env.PORT || 5000
 const app = express()
 
@@ -31,5 +33,60 @@ const start = async () => {
     console.log(e)
   }
 }
+
+const list = todoService.deadlines ? todoService.deadlines : []
+const time = new Date()
+const year = time.getFullYear()
+const month = time.getMonth() + 1
+const day = time.getDate()
+const dateTime = time.toLocaleTimeString('en-GB', {
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: false,
+})
+
+let date = `${year}.${month < 10 ? `0${month}` : month}.${
+  day < 10 ? `0${day}` : day
+}`
+const dateToNumbers = (s) => {
+  const pattern = /[^0-9]/g
+  const result = s.replace(pattern, '')
+  return result
+}
+
+const checkDeadline = () => {
+  list[0].map((item) => {
+    if (item.deadline !== '') {
+      const deadline = new Date(item.deadline)
+
+      const deadlineDate = deadline.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+      const deadlineTime = deadline.toLocaleTimeString('en-GB', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+      })
+      const deadlineStr = `${deadlineDate}${deadlineTime}`
+      const deadlineResult = dateToNumbers(deadlineStr)
+      const currentTime = dateToNumbers(`${date}${dateTime}`)
+      const convertDeadline = deadlineResult.slice(deadlineResult.length - 4)
+      const convertCt = currentTime.slice(currentTime.length - 4)
+
+      console.log(convertDeadline, convertCt)
+    }
+  })
+}
+
+const job = cron.schedule(' */5 * * * * *', () => {
+  todoService.deadlineArray()
+  if (list[0].length !== 0) {
+    console.log('dlinna ne 0')
+    checkDeadline()
+  }
+})
+job.start()
 
 start()
