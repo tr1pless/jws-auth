@@ -55,29 +55,37 @@ const dateToNumbers = (s) => {
 }
 
 const checkDeadline = () => {
-  list[0].map((item) => {
-    if (item.deadline !== '') {
-      const deadline = new Date(item.deadline)
+  try {
+    list[0].map((item) => {
+      if (item.deadline !== '') {
+        const deadline = new Date(item.deadline)
 
-      const deadlineDate = deadline.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })
-      const deadlineTime = deadline.toLocaleTimeString('en-GB', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false,
-      })
-      const deadlineStr = `${deadlineDate}${deadlineTime}`
-      const deadlineResult = dateToNumbers(deadlineStr)
-      const currentTime = dateToNumbers(`${date}${dateTime}`)
-      const convertDeadline = deadlineResult.slice(deadlineResult.length - 4)
-      const convertCt = currentTime.slice(currentTime.length - 4)
-
-      console.log(convertDeadline, convertCt)
-    }
-  })
+        const deadlineDate = deadline.toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        })
+        const deadlineTime = deadline.toLocaleTimeString('en-GB', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: false,
+        })
+        const deadlineStr = `${deadlineDate}${deadlineTime}`
+        const deadlineResult = dateToNumbers(deadlineStr)
+        const currentTime = dateToNumbers(`${date}${dateTime}`)
+        const convertDeadline = deadlineResult.slice(deadlineResult.length - 4)
+        const convertCt = currentTime.slice(currentTime.length - 4)
+        if (+convertDeadline <= +convertCt + 300 && !item.notice3h) {
+          console.log(item.itemId)
+          todoService.hours3Left(item.itemId)
+          todoService.deadlineArray()
+          console.log(list)
+        }
+      }
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const job = cron.schedule(' */5 * * * * *', () => {
