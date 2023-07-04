@@ -81,8 +81,8 @@ const checkDeadline = () => {
           console.log(item.idItem, 'index item id')
           todoService.hours3Left(item.idItem)
           mailService.send3hNotice(
-            item.user,
             item.title,
+            item.email,
             item.description,
             item.deadline,
           )
