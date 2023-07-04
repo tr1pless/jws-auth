@@ -9,9 +9,10 @@ class TodoController {
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Validation error', errors.array()))
       }
-      const { user, title, description, idItem, deadline } = req.body
+      const { user, email, title, description, idItem, deadline } = req.body
       const todoData = await todoService.addTodo(
         user,
+        email,
         title,
         description,
         idItem,

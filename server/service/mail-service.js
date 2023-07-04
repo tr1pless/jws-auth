@@ -29,7 +29,7 @@ class MailService {
     })
   }
 
-  async send3hNotice(to, title, description, deadline) {
+  async send3hNotice(title, to, description, deadline) {
     await this.transporter.sendMail({
       from: process.env.SMTP_USER,
       to,
@@ -39,7 +39,7 @@ class MailService {
         <div>
           <h1>${title}</h1>
           <p>${description}</p>
-          <p style="color:red">${deadline}</p>
+          <p style="color:red">Deadline : ${deadline}</p>
           <a href='${process.env.API_URL}'>${process.env.CLIENT_URL}</a>
         </div>
         `,

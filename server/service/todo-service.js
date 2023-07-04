@@ -6,9 +6,10 @@ class TodoService {
   setDeadlines(deadlineArr) {
     this.deadlines = deadlineArr
   }
-  async addTodo(user, title, description, idItem, deadline) {
+  async addTodo(user, email, title, description, idItem, deadline) {
     const todo = await TodoModel.create({
       user,
+      email,
       title,
       description,
       idItem,
