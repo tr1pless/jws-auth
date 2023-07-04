@@ -28,6 +28,23 @@ class MailService {
         `,
     })
   }
+
+  async send3hNotice(to, title, description, deadline) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to,
+      subject: `У вашей заметки ${title} через 3 часа подойдет дедлайн`,
+      text: '',
+      html: `
+        <div>
+          <h1>${title}</h1>
+          <p>${description}</p>
+          <p style="color:red">${deadline}</p>
+          <a href='${process.env.API_URL}'>${process.env.CLIENT_URL}</a>
+        </div>
+        `,
+    })
+  }
 }
 
 module.exports = new MailService()

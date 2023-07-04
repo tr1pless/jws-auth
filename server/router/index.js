@@ -21,5 +21,6 @@ router.post('/addTodo', todoController.addTodo)
 router.get('/getList', todoController.todoList)
 router.post('/removeTodo', todoController.removeTodo)
 router.post('/checkDeadline', todoController.checkDeadline)
+router.post('/notice3h', todoController.hours3Left)
 
 module.exports = router

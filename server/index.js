@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const cron = require('node-cron')
 
+const mailService = require('./service/mail-service')
 const todoService = require('./service/todo-service')
 const router = require('./router/index')
 const errorMiddleware = require('./middlewares/error-middleware')
@@ -33,8 +34,8 @@ const start = async () => {
     console.log(e)
   }
 }
+let list = []
 
-const list = todoService.deadlines ? todoService.deadlines : []
 const time = new Date()
 const year = time.getFullYear()
 const month = time.getMonth() + 1
@@ -75,26 +76,33 @@ const checkDeadline = () => {
         const currentTime = dateToNumbers(`${date}${dateTime}`)
         const convertDeadline = deadlineResult.slice(deadlineResult.length - 4)
         const convertCt = currentTime.slice(currentTime.length - 4)
+
         if (+convertDeadline <= +convertCt + 300 && !item.notice3h) {
-          console.log(item.itemId)
-          todoService.hours3Left(item.itemId)
+          console.log(item.idItem, 'index item id')
+          todoService.hours3Left(item.idItem)
+          mailService.send3hNotice(
+            item.user,
+            item.title,
+            item.description,
+            item.deadline,
+          )
           todoService.deadlineArray()
-          console.log(list)
         }
       }
     })
   } catch (e) {
-    console.log(e)
+    console.log(e.message)
   }
 }
 
-const job = cron.schedule(' */5 * * * * *', () => {
+const job = cron.schedule('*/5 * * * * *', () => {
   todoService.deadlineArray()
-  if (list[0].length !== 0) {
-    console.log('dlinna ne 0')
+  if (todoService.deadlines.length !== 0) {
+    list = todoService.deadlines ? [...todoService.deadlines] : []
+    // console.log(list, 'index deadlines')
     checkDeadline()
   }
 })
-job.start()
 
 start()
+job.start()
