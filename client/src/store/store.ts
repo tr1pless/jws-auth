@@ -87,9 +87,11 @@ export default class Store {
   }
   async addTodo(title: string, description: string, deadline: string) {
     try {
+      console.log(this.user.email, 'user Email')
       const id = nanoid()
       const response = await TodoService.addTodo(
         this.user.id,
+        this.user.email,
         title,
         description,
         id,
