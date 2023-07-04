@@ -38,14 +38,15 @@ class TodoService {
   async deadlineArray() {
     const match = await TodoModel.find()
     const result = match.filter((item) => item.deadline !== '')
-    this.setDeadlines(result)
+    this.setDeadlines([result])
+    // console.log(this.deadlines, 'service')
   }
   async hours3Left(id) {
     const match = await TodoModel.findOneAndUpdate(
       { idItem: id },
       { notice3h: true },
     )
-    console.log(match)
+    console.log(match, '3hnotice service')
     return match
   }
 }

@@ -50,6 +50,16 @@ class TodoController {
       next(e)
     }
   }
+
+  async hours3Left(req, res, next) {
+    try {
+      const { id } = req.body
+      const notice3h = await todoService.hours3Left(id)
+      return res.json(notice3h)
+    } catch (e) {
+      next(e)
+    }
+  }
 }
 
 module.exports = new TodoController()
