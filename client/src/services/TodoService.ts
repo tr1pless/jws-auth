@@ -5,6 +5,7 @@ import { TodoResponse } from '../models/response/TodoResponse'
 export default class TodoService {
   static async addTodo(
     user: string,
+    email: string,
     title: string,
     description: string,
     idItem: string,
@@ -12,6 +13,7 @@ export default class TodoService {
   ): Promise<AxiosResponse<TodoResponse>> {
     return $api.post<TodoResponse>('/addTodo', {
       user,
+      email,
       title,
       description,
       idItem,

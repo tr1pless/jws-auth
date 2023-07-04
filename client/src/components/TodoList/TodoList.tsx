@@ -1,6 +1,8 @@
 import React, { memo, useContext, useState, useEffect } from 'react'
 import { Context } from '../..'
 import s from './todoList.module.css'
+import Modal from 'react-modal'
+import { modalCustomStyles } from '../../constants'
 
 interface TodoItem {
   idItem: string
@@ -20,12 +22,56 @@ function TodoList() {
   const [deadline, setDeadline] = useState('')
   const [time, setTime] = useState(new Date())
   const todoArray: any[] = store.todoListArray
-  const [expired, setExpired]: any[] = useState([])
   const [activeEls, setActiveEls]: any[] = useState([])
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [id, setId] = useState('')
+  const [modalTitle, setModalTitle] = useState('')
 
   const year = time.getFullYear()
   const month = time.getMonth() + 1
   const day = time.getDate()
+
+  const openModal = () => {
+    setModalIsOpen(true)
+  }
+  const confirmDeletion = (id: string, title: string) => {
+    openModal()
+    setId(id)
+    setModalTitle(title)
+  }
+  const confirm = (e: any, choice: boolean) => {
+    if (choice === true) {
+      closeModal()
+      deleteHandler(id)
+      console.log(id, choice, 'esli da')
+    } else {
+      console.log(id, choice, 'esli net')
+
+      e.preventDefault()
+      closeModal()
+    }
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false)
+  }
+  const modalContent = (
+    <div className={s.modalWindow}>
+      <h2>Удалить ?</h2>
+      <p>
+        Вы уверены, что хотите удалить
+        <span style={{ color: '#b62828' }}>"{modalTitle}</span>"
+      </p>
+      <div className={s.modalbtnWrp}>
+        <button className={s.modalButtons} onClick={(e) => confirm(e, true)}>
+          Удалить
+        </button>
+        <button className={s.modalButtons} onClick={(e) => confirm(e, false)}>
+          Отменить
+        </button>
+      </div>
+    </div>
+  )
 
   const ifDeadlineExpired = () => {
     const result = todoArray.find((item: TodoItem) => {
@@ -96,6 +142,7 @@ function TodoList() {
 
   const deleteHandler = (id: string) => {
     setRefresh(true)
+
     store.removeTodo(id)
     const result = todoList.filter((item: TodoItem) => item.idItem !== id)
     setTodoList([...result])
@@ -139,6 +186,14 @@ function TodoList() {
   return (
     <>
       <div className='container'>
+        <Modal
+          ariaHideApp={false}
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={modalCustomStyles}
+        >
+          {modalContent}
+        </Modal>
         <div style={{ position: 'relative' }}>
           <button
             style={
@@ -172,7 +227,10 @@ function TodoList() {
                         <button
                           className={s.deleteItem}
                           id={item.idItem}
-                          onClick={() => deleteHandler(item.idItem)}
+                          // onClick={() => deleteHandler(item.idItem)}
+                          onClick={() =>
+                            confirmDeletion(item.idItem, item.title)
+                          }
                         >
                           <svg
                             id={item.idItem}

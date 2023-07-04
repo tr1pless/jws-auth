@@ -96,3 +96,17 @@ textarea::placeholder {
   background: none;
   border: none;
 }
+.modalWindow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalbtnWrp {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.modalButtons {
+  margin: 5px;
+}
