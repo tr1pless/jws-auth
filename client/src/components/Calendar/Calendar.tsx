@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import moment from 'moment'
 import { Context } from '../..'
-import { list } from '@chakra-ui/react'
+import s from './calendar.module.css'
 
 type CalendarItems = {
   title: string
@@ -10,17 +10,25 @@ type CalendarItems = {
   month: number
 }
 
+type TodoList = {
+  title: string
+  idItem: string
+  deadline: string
+  user: string
+  description: string
+}
+
 export const Calendar = () => {
   const { store } = useContext(Context)
   const listArr = [...store.todoListArray]
 
-  const month = moment().format('YYYY-MM')
-  const daysInMonth = moment(`${month}`, 'YYYY-MM').daysInMonth()
+  const month = moment().format('MM')
+  const daysInMonth = moment(`${month}`, 'MM').daysInMonth()
   const dayOfMonth = moment().date()
 
-  const [days, setDays] = useState(daysInMonth)
-  const [todoList, setTodoList]: any = useState([])
+  const [todoList, setTodoList] = useState<TodoList[]>([])
   const [calendarItems, setCalendarItems] = useState<CalendarItems[]>([])
+  const [count, setCount] = useState<number[]>([])
 
   const todoItemDate = (i: string) => {
     return moment(i).date()
@@ -28,22 +36,34 @@ export const Calendar = () => {
   const todoItemMonth = (i: string) => {
     return moment(i).month()
   }
+
+  let days: number[] = []
+  let i: number = 0
+  useEffect(() => {
+    if (todoList.length !== 0) {
+      checkDates()
+    }
+  }, [todoList])
+
+  useEffect(() => {
+    if (month !== undefined && calendarItems.length !== 0) {
+      while (days.length < daysInMonth) {
+        i = ++i
+        days.push(i)
+      }
+      setCount([...days])
+    }
+  }, [calendarItems])
   useEffect(() => {
     if (listArr.length === 0) {
       store.todoList()
     }
-    console.log(listArr)
   }, [listArr.length])
   useEffect(() => {
     if (listArr.length !== 0 && !store.isLoading) {
       setTodoList([...listArr])
     }
   }, [listArr.length])
-  useEffect(() => {
-    if (todoList.length !== 0) {
-      checkDates()
-    }
-  }, [todoList])
 
   let todoArr: CalendarItems[] = []
 
@@ -55,29 +75,45 @@ export const Calendar = () => {
             // const day = item.deadline.slice(8, 9)
             // const month = item.deadline.slice(5, 6)
             // const time = item.deadline.slice(11, 15)
-            console.log(
-              todoItemDate(item.deadline),
-              'date',
-              todoItemMonth(item.deadline) + 1,
-              'month',
-            )
+
             todoArr.push({
               title: item.title,
               description: item.description,
               day: todoItemDate(item.deadline),
               month: todoItemMonth(item.deadline),
             })
+            setCalendarItems([...todoArr])
           }
         },
-        setCalendarItems([...todoArr]),
-        console.log(todoArr), // тормознул тут нужно сделать календарь с проверкой по датам =? дедлайн .
       )
     }
   }
 
   return (
     <>
-      <div>calendar</div>
+      <div className={s.calendar}>
+        {count.map((day: number) => {
+          console.log(count)
+
+          return (
+            <div className={s.calendarBox} key={day}>
+              <>
+                <p>{day}</p>
+                {calendarItems.map((item) => {
+                  if (item.day === day) {
+                    return (
+                      <div className={s.calendarTodo} key={item.day}>
+                        <h1 className={s.calendarTitle}>{item.title}</h1>
+                        <p className={s.calendarDesc}>{item.description}</p>
+                      </div>
+                    )
+                  }
+                })}
+              </>
+            </div>
+          )
+        })}
+      </div>
     </>
   )
 }
