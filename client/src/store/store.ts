@@ -13,8 +13,12 @@ export default class Store {
   isLoading = false
   todoListArray: any[] = []
   refresh = false
+  calendarLoading = true
   constructor() {
     makeAutoObservable(this)
+  }
+  setCalendarLoading(bool: boolean) {
+    this.calendarLoading = bool
   }
   setAuth(bool: boolean) {
     this.isAuth = bool
@@ -27,6 +31,7 @@ export default class Store {
   }
   setTodoListArray(array: any[]) {
     this.todoListArray = array
+    console.log('store listarr')
   }
   setRefresh(bool: boolean) {
     this.refresh = bool
@@ -82,6 +87,7 @@ export default class Store {
     } catch (e: any) {
       console.log(e.response?.data?.message)
     } finally {
+      this.todoList()
       this.setLoading(false)
     }
   }
@@ -111,6 +117,13 @@ export default class Store {
       console.log(e.response?.data?.message)
     }
   }
+  async editTodo(id: string, editedDesc: string) {
+    try {
+      const response = await TodoService.editTodo(id, editedDesc)
+    } catch (e: any) {
+      console.log(e.response?.data?.message)
+    }
+  }
   async todoList() {
     try {
       const response = await TodoService.todoList()
@@ -132,7 +145,7 @@ export default class Store {
   }
   async checkDeadline(id: string) {
     try {
-      const response = await TodoService.checkDeadline(id) // закончил тут. из компонента нужно передавать айди просроченной тудушки, который будет отправляться на сервер и искать нужный туду.
+      const response = await TodoService.checkDeadline(id)
     } catch (e: any) {
       console.log(e.response?.data?.message, 'deadline check error')
     }

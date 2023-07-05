@@ -29,6 +29,12 @@ export default class TodoService {
   static async todoList(): Promise<AxiosResponse<TodoResponse[]>> {
     return $api.get<TodoResponse[]>('/getList')
   }
+  static async editTodo(
+    id: string,
+    editedDesc: string,
+  ): Promise<AxiosResponse<TodoResponse>> {
+    return $api.post<TodoResponse>('/editTodo', { id, editedDesc })
+  }
   static async checkDeadline(id: string): Promise<AxiosResponse<TodoResponse>> {
     return $api.post<TodoResponse>('/checkDeadline', {
       id,

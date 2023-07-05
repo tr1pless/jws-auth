@@ -41,6 +41,15 @@ class TodoController {
       next(e)
     }
   }
+  async editTodo(req, res, next) {
+    try {
+      const { id, editedDesc } = req.body
+      const match = await todoService.editTodo(id, editedDesc)
+      return res.json(match)
+    } catch (e) {
+      next(e)
+    }
+  }
 
   async checkDeadline(req, res, next) {
     try {
