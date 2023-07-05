@@ -10,7 +10,7 @@ const InnerApp: FC = () => {
 
   return (
     <div>
-      <Calendar />
+      {store.calendarLoading ? null : <Calendar />}
       <TodoList />
     </div>
   )

@@ -28,6 +28,12 @@ class TodoService {
     const list = await TodoModel.find()
     return list
   }
+  async editTodo(id, editedDesc) {
+    const editEl = await TodoModel.findOneAndUpdate(
+      { idItem: id },
+      { description: editedDesc },
+    )
+  }
 
   async checkDeadline(id) {
     const match = await TodoModel.findOneAndUpdate(
