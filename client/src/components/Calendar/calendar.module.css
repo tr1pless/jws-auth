@@ -61,3 +61,25 @@
 .disabled {
   transform: translateX(-101%);
 }
+/* .activeDayAnimation { */
+/* animation: hideAndCome 1s 1; */
+/* } */
+
+/* @keyframes hideAndCome { */
+/* 0% { */
+/* transform: translateX(-101%); */
+/* } */
+/* 25% { */
+/* transform: translateX(-50%); */
+/* } */
+/* 50% { */
+/* transform: translateX(0%); */
+/* } */
+/* 75% { */
+/* transform: translateX(-50%); */
+/* } */
+/*  */
+/* 100% { */
+/* transform: translateX(-101%); */
+/* } */
+/* } */

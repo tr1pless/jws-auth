@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react'
 import moment from 'moment'
 import { Context } from '../..'
 import s from './calendar.module.css'
+import { nanoid } from 'nanoid'
 
 type CalendarItems = {
   title: string
@@ -18,6 +19,10 @@ type TodoList = {
   user: string
   description: string
 }
+type ActiveDay = {
+  day: number
+  month: number
+}
 
 export const Calendar = () => {
   const { store } = useContext(Context)
@@ -32,6 +37,8 @@ export const Calendar = () => {
   const [count, setCount] = useState<number[]>([])
   const [activeDay, setActiveDay] = useState<CalendarItems[]>([])
   const [active, setActive] = useState(false)
+  const [activeDaySave, setActiveDaySave] = useState('')
+  const [prevDay, setPrevDay] = useState('')
 
   const todoItemDate = (i: string) => {
     const day = moment(i).date()
@@ -110,26 +117,50 @@ export const Calendar = () => {
   }
 
   const dayClickHandler = (day: number, month: number) => {
-    // сделать проверку дня и очистку массива
+    // if()
     let activeArr: CalendarItems[] = []
+    setActiveDaySave(`${day}.${month}`)
+    if (prevDay !== `${day}.${month}` && active === true) {
+      setActive(false)
+    } else {
+      setActive(true)
+    }
     calendarItems.filter((item) => {
-      if (item.day === day && +item.month === month) {
-        setActive(!active)
-        activeArr.push({
-          title: item.title,
-          description: item.description,
-          day: item.day,
-          month: item.month,
-          time: item.time,
-        })
-        setActiveDay([...activeArr])
+      if (item.day === day && +item.month === month && item.title !== '') {
+        if (activeDaySave !== `${day}.${month}` || activeDay.length === 0) {
+          activeArr.push({
+            title: item.title,
+            description: item.description,
+            day: item.day,
+            month: item.month,
+            time: item.time,
+          })
+        } else {
+          setActive(!active)
+        }
+        if (activeArr.length !== 0) {
+          setActiveDay([...activeArr])
+        } else {
+          setActiveDay([])
+        }
+
         console.log(
           `deadline:${item.day}.${item.month} ${item.time} `,
           activeArr,
         )
       }
+      if (
+        activeDaySave !== `${day}.${month}` ||
+        activeDay.length !== 0 ||
+        activeArr.length !== 0
+      ) {
+        setTimeout(() => {
+          setActive(true)
+        }, 1000)
+      }
     })
-    console.log(activeDay, 'activeDay state')
+
+    setPrevDay(`${day}.${month}`)
     activeArr = []
   }
 
@@ -148,17 +179,14 @@ export const Calendar = () => {
                     ? `${s.calendarBox}`
                     : `${s.calendarBoxExp} ${s.calendarBox}`
                 }
-                key={200 + day}
+                key={nanoid()}
               >
                 <>
-                  <p>{day + 100}</p>
+                  <p>{day}</p>
                   {calendarItems.map((item) => {
                     if (item.day === day) {
                       return (
-                        <div
-                          className={s.calendarTodo}
-                          key={item.day + item.time}
-                        >
+                        <div className={s.calendarTodo} key={nanoid()}>
                           <p className={s.calendarTitle}>{item.title}</p>
                           {/* <p className={s.calendarDesc}>{item.description}</p> */}
                         </div>
@@ -173,20 +201,25 @@ export const Calendar = () => {
         <div
           className={
             active
-              ? `${s.activeDay} ${s.active}`
+              ? `${s.activeDay} ${s.active} `
               : `${s.activeDay} ${s.disabled}`
           }
         >
-          {activeDay.map((item) => {
-            return (
-              <div key={item.time}>
-                <p>
-                  {item.day < 10 ? '0' + item.day : item.day}.
-                  {item.month < 10 ? '0' + item.month : item.month}:{item.time}
-                </p>
-              </div>
-            )
-          })}
+          {active
+            ? activeDay.map((item) => {
+                if (activeDay.length !== 0) {
+                  return (
+                    <div key={nanoid()}>
+                      <p>
+                        {item.day < 10 ? '0' + item.day : item.day}.
+                        {item.month < 10 ? '0' + item.month : item.month}:
+                        {item.time}
+                      </p>
+                    </div>
+                  )
+                }
+              })
+            : null}
         </div>
       </div>
     </>
