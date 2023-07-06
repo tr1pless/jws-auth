@@ -1,13 +1,24 @@
-.calendarBox {
-  min-height: 100px;
-  height: min-content;
-  min-width: 50px;
-  width: min-content;
+.calendarWrp {
+  display: flex;
 }
 .calendar {
-  display: flex;
-  width: 800px;
-  height: 500px;
+  z-index: 3;
+  width: 600px;
+  height: 450px;
+  margin: 90px 0 50px 10px;
+  background: linear-gradient(315deg, rgb(36 19 56 / 99%) 11%, #320d0d 100%);
+  display: grid;
+  grid-template-columns: 77px 77px 77px 77px 77px 77px 77px;
+  grid-template-rows: 77px 77px 77px 77px 77px;
+  gap: 7px 7px;
+  grid-template-areas:
+    '. . . . . . .'
+    '. . . . . . .'
+    '. . . . . . .'
+    '. . . . . . .'
+    '. . . . . . .'
+    '. . . . . . .';
+  box-shadow: 5px 2px 22px 10px #0b060d, inset 0px 0px 35px 1px rgb(5 3 3 / 75%);
 }
 .calendarTitle {
   width: min-content;
@@ -17,4 +28,36 @@
 .calendarTodo {
   width: min-content;
   height: min-content;
+}
+.calendarBox {
+  height: 77px;
+  width: 77px;
+  overflow: hidden;
+  background: linear-gradient(315deg, rgb(4 54 55 / 99%) 11%, #35143b 100%);
+  margin: 10px;
+  box-shadow: inset 0px 0px 35px 1px rgb(5 3 3 / 75%);
+  color: #df7676;
+  transition: all 0.5s;
+}
+
+.calendarBox:hover {
+  transform: scale(1.1);
+}
+
+.calendarBoxExp {
+  background: linear-gradient(130deg, #623c3c -16%, #2c1030e3 100%);
+}
+.activeDay {
+  width: 300px;
+  height: 450px;
+  background-color: gray;
+  transition: all 1s;
+  z-index: 1;
+  margin: 90px auto 50px 0px;
+}
+.active {
+  transform: translateX(0);
+}
+.disabled {
+  transform: translateX(-101%);
 }
