@@ -3,6 +3,7 @@ import moment from 'moment'
 import { Context } from '../..'
 import s from './calendar.module.css'
 import { nanoid } from 'nanoid'
+import months from './months.json'
 
 type CalendarItems = {
   title: string
@@ -37,8 +38,11 @@ export const Calendar = () => {
   const [count, setCount] = useState<number[]>([])
   const [activeDay, setActiveDay] = useState<CalendarItems[]>([])
   const [active, setActive] = useState(false)
-  const [activeDaySave, setActiveDaySave] = useState('')
+  // const [activeDaySave, setActiveDaySave] = useState('')
   const [prevDay, setPrevDay] = useState('')
+  const [activeIndex, setActiveIndex] = useState(+month - 1)
+
+  const carLength = months.length
 
   const todoItemDate = (i: string) => {
     const day = moment(i).date()
@@ -97,9 +101,6 @@ export const Calendar = () => {
       todoList.map(
         (item: { title: string; description: string; deadline: string }) => {
           if (item.deadline !== '') {
-            // const day = item.deadline.slice(8, 9)
-            // const month = item.deadline.slice(5, 6)
-            // const time = item.deadline.slice(11, 15)
             let getMonth = todoItemMonth(item.deadline)
             todoArr.push({
               title: item.title,
@@ -117,55 +118,91 @@ export const Calendar = () => {
   }
 
   const dayClickHandler = (day: number, month: number) => {
-    // if()
     let activeArr: CalendarItems[] = []
-    setActiveDaySave(`${day}.${month}`)
-    if (prevDay !== `${day}.${month}` && active === true) {
-      setActive(false)
-    } else {
-      setActive(true)
-    }
-    calendarItems.filter((item) => {
-      if (item.day === day && +item.month === month && item.title !== '') {
-        if (activeDaySave !== `${day}.${month}` || activeDay.length === 0) {
-          activeArr.push({
-            title: item.title,
-            description: item.description,
-            day: item.day,
-            month: item.month,
-            time: item.time,
-          })
-        } else {
-          setActive(!active)
-        }
-        if (activeArr.length !== 0) {
-          setActiveDay([...activeArr])
-        } else {
-          setActiveDay([])
-        }
 
+    calendarItems.filter((item) => {
+      if (item.day === day && +item.month === month) {
+        setActive(!active)
+        activeArr.push({
+          title: item.title,
+          description: item.description,
+          day: item.day,
+          month: item.month,
+          time: item.time,
+        })
+        setActiveDay([...activeArr])
         console.log(
           `deadline:${item.day}.${item.month} ${item.time} `,
+
           activeArr,
         )
       }
-      if (
-        activeDaySave !== `${day}.${month}` ||
-        activeDay.length !== 0 ||
-        activeArr.length !== 0
-      ) {
-        setTimeout(() => {
-          setActive(true)
-        }, 1000)
-      }
     })
-
     setPrevDay(`${day}.${month}`)
+    console.log(activeDay, 'activeDay state', `prevDay : ${prevDay}`)
     activeArr = []
+  }
+
+  const prevMonth = () => {
+    if (activeIndex !== 0) {
+      setActiveIndex(activeIndex - 1)
+    } else {
+      setActiveIndex(activeIndex - 1 + carLength)
+    }
+    console.log(activeIndex, 'minus')
+  }
+  const nextMonth = () => {
+    if (activeIndex !== 11) {
+      setActiveIndex(activeIndex + 1)
+    } else {
+      setActiveIndex(activeIndex - 11)
+    }
+    console.log(activeIndex, 'plus')
   }
 
   return (
     <>
+      <div className={s.carouselWrp}>
+        <button className={s.carouselBtn} onClick={() => prevMonth()}>
+          <svg
+            style={{ transform: 'rotate(-90deg)' }}
+            xmlns='http://www.w3.org/2000/svg'
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+          >
+            <path d='M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z' />
+          </svg>
+        </button>
+        <div className={s.carouselContainer}>
+          {months.map((item) => (
+            <div className={s.carouselItem}>
+              <p
+                style={{
+                  transform: `translateX(-${activeIndex * 100}%)`,
+                  width: '150px',
+                  transition: '1s',
+                }}
+                key={nanoid()}
+              >
+                {item.name}
+              </p>
+            </div>
+          ))}
+        </div>
+        <button className={s.carouselBtn} onClick={() => nextMonth()}>
+          <svg
+            style={{ transform: 'rotate(90deg)' }}
+            xmlns='http://www.w3.org/2000/svg'
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+          >
+            <path d='M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z' />
+          </svg>
+        </button>
+      </div>
+
       <div className={s.calendarWrp}>
         <div className={s.calendar}>
           {count.map((day: number) => {

@@ -83,3 +83,34 @@
 /* transform: translateX(-101%); */
 /* } */
 /* } */
+.carouselWrp {
+  margin: 100px 0 0;
+  display: flex;
+  align-items: center;
+}
+.carouselContainer {
+  width: 150px;
+  height: 25px;
+  background: blue;
+  margin: 0;
+  /* overflow: hidden; */
+  display: flex;
+  transition: all 1s;
+}
+.carouselBtn {
+  margin: 0;
+  background: none;
+  border: none;
+}
+
+.carouselItem {
+  width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  transition: all 1s;
+
+  height: 100%;
+  white-space: pre-wrap;
+}
