@@ -14,8 +14,12 @@ export default class Store {
   todoListArray: any[] = []
   refresh = false
   calendarLoading = true
+  errorMsg = ''
   constructor() {
     makeAutoObservable(this)
+  }
+  setErrormsg(msg: string) {
+    this.errorMsg = msg
   }
   setCalendarLoading(bool: boolean) {
     this.calendarLoading = bool
@@ -47,7 +51,9 @@ export default class Store {
       localStorage.setItem('token', response.data.accessToken)
       this.setAuth(true)
       this.setUser(response.data.user)
+      this.setErrormsg('')
     } catch (e: any) {
+      this.setErrormsg(e.response?.data?.message)
       console.log(e.response?.data?.message)
     }
   }

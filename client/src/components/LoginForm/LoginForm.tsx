@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { FC, useContext, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import s from './loginform.module.css'
 import { Context } from '../..'
 
@@ -7,6 +7,7 @@ const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [show, setShow] = useState(false)
+  const [error, setError] = useState(false)
   const { store } = useContext(Context)
 
   function handleEnter(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -14,6 +15,13 @@ const LoginForm: FC = () => {
       store.login(email, password)
     }
   }
+  const err = store.errorMsg
+
+  useEffect(() => {
+    if (err !== '') {
+      setError(true)
+    }
+  })
   const handleShow = () => setShow(!show)
 
   return (
@@ -65,6 +73,7 @@ const LoginForm: FC = () => {
               </svg>
             </button>
           </div>
+          <p className={error ? s.errorVisible : s.errorDisabled}>{err}</p>
           <div className={s.logsigWrp}>
             <button
               className={`${s.loginform__login} ${s.formBtn}`}
