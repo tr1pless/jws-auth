@@ -3,7 +3,6 @@ import moment from 'moment'
 import { Context } from '../..'
 import s from './calendar.module.css'
 import { nanoid } from 'nanoid'
-import months from './months.json'
 
 type CalendarItems = {
   title: string
@@ -28,9 +27,7 @@ type ActiveDay = {
 export const Calendar = () => {
   const { store } = useContext(Context)
   const listArr = [...store.todoListArray]
-
-  const month = moment().format('MM')
-  const daysInMonth = moment(`${month}`, 'MM').daysInMonth()
+  const initialMonth = moment().format('MM')
   const dayOfMonth = moment().date()
 
   const [todoList, setTodoList] = useState<TodoList[]>([])
@@ -40,9 +37,9 @@ export const Calendar = () => {
   const [active, setActive] = useState(false)
   // const [activeDaySave, setActiveDaySave] = useState('')
   const [prevDay, setPrevDay] = useState('')
-  const [activeIndex, setActiveIndex] = useState(+month - 1)
+  const [month, setMonth] = useState(initialMonth)
 
-  const carLength = months.length
+  const daysInMonth = moment(`${month}`, 'MM').daysInMonth()
 
   const todoItemDate = (i: string) => {
     const day = moment(i).date()
@@ -142,67 +139,17 @@ export const Calendar = () => {
     console.log(activeDay, 'activeDay state', `prevDay : ${prevDay}`)
     activeArr = []
   }
-
-  const prevMonth = () => {
-    if (activeIndex !== 0) {
-      setActiveIndex(activeIndex - 1)
-    } else {
-      setActiveIndex(activeIndex - 1 + carLength)
-    }
-    console.log(activeIndex, 'minus')
-  }
   const nextMonth = () => {
-    if (activeIndex !== 11) {
-      setActiveIndex(activeIndex + 1)
-    } else {
-      setActiveIndex(activeIndex - 11)
-    }
-    console.log(activeIndex, 'plus')
+    setMonth(`${+month + 1}`)
+    console.log(month)
   }
+  const prevMonth = () => {
+    setMonth(`${+month - 1}`)
 
+    console.log(month)
+  }
   return (
     <>
-      <div className={s.carouselWrp}>
-        <button className={s.carouselBtn} onClick={() => prevMonth()}>
-          <svg
-            style={{ transform: 'rotate(-90deg)' }}
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-          >
-            <path d='M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z' />
-          </svg>
-        </button>
-        <div className={s.carouselContainer}>
-          {months.map((item) => (
-            <div className={s.carouselItem}>
-              <p
-                style={{
-                  transform: `translateX(-${activeIndex * 100}%)`,
-                  width: '150px',
-                  transition: '1s',
-                }}
-                key={nanoid()}
-              >
-                {item.name}
-              </p>
-            </div>
-          ))}
-        </div>
-        <button className={s.carouselBtn} onClick={() => nextMonth()}>
-          <svg
-            style={{ transform: 'rotate(90deg)' }}
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-          >
-            <path d='M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z' />
-          </svg>
-        </button>
-      </div>
-
       <div className={s.calendarWrp}>
         <div className={s.calendar}>
           {count.map((day: number) => {

@@ -129,3 +129,11 @@ span {
   opacity: 0;
   transform: scale(0.1, 1);
 }
+
+.errorVisible {
+  color: #2bffba;
+}
+
+.errorDisabled {
+  display: none;
+}

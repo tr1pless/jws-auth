@@ -38,19 +38,37 @@
 
 @keyframes change-background {
   0% {
-    background: #8967089e;
+    background: #a5070796;
   }
 
   50% {
-    background: #c9881394;
+    background: #7a500394;
   }
   100% {
-    background: #3a0d4854;
+    background: #0d021080;
   }
   50% {
-    background: #58080b94;
+    background: #530c0cb5;
   }
   0% {
-    background: #ac8ab566;
+    background: #b6420691;
   }
 }
+/* @keyframes change-background { */
+/* 0% { */
+/* background: #8967089e; */
+/* } */
+/*  */
+/* 50% { */
+/* background: #c9881394; */
+/* } */
+/* 100% { */
+/* background: #3a0d4854; */
+/* } */
+/* 50% { */
+/* background: #58080b94; */
+/* } */
+/* 0% { */
+/* background: #ac8ab566; */
+/* } */
+/* } */
