@@ -3,8 +3,6 @@ import moment from 'moment'
 import { Context } from '../..'
 import s from './calendar.module.css'
 import { nanoid } from 'nanoid'
-import months from './months.json'
-import { Carousel } from './Carousel'
 
 type CalendarItems = {
   title: string
@@ -29,9 +27,7 @@ type ActiveDay = {
 export const Calendar = () => {
   const { store } = useContext(Context)
   const listArr = [...store.todoListArray]
-
-  const month = moment().format('MM')
-  const daysInMonth = moment(`${month}`, 'MM').daysInMonth()
+  const initialMonth = moment().format('MM')
   const dayOfMonth = moment().date()
 
   const [todoList, setTodoList] = useState<TodoList[]>([])
@@ -41,6 +37,9 @@ export const Calendar = () => {
   const [active, setActive] = useState(false)
   // const [activeDaySave, setActiveDaySave] = useState('')
   const [prevDay, setPrevDay] = useState('')
+  const [month, setMonth] = useState(initialMonth)
+
+  const daysInMonth = moment(`${month}`, 'MM').daysInMonth()
 
   const todoItemDate = (i: string) => {
     const day = moment(i).date()
@@ -140,10 +139,17 @@ export const Calendar = () => {
     console.log(activeDay, 'activeDay state', `prevDay : ${prevDay}`)
     activeArr = []
   }
+  const nextMonth = () => {
+    setMonth(`${+month + 1}`)
+    console.log(month)
+  }
+  const prevMonth = () => {
+    setMonth(`${+month - 1}`)
 
+    console.log(month)
+  }
   return (
     <>
-      <Carousel month={month} />
       <div className={s.calendarWrp}>
         <div className={s.calendar}>
           {count.map((day: number) => {
