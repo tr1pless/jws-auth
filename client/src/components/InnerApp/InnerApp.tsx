@@ -9,7 +9,7 @@ const InnerApp: FC = () => {
   const { store } = useContext(Context)
 
   return (
-    <div>
+    <div className={s.innerApp}>
       {store.calendarLoading ? null : <Calendar />}
       <TodoList />
     </div>

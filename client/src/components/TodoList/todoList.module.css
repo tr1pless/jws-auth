@@ -28,7 +28,7 @@
   border: none;
   background: none;
   position: absolute;
-  top: -20px;
+  top: 5px;
   right: 10px;
   fill: #b62828;
   transition: all 1s;
@@ -63,6 +63,7 @@ textarea::placeholder {
 }
 .itemTitle {
   margin: 5px 10px;
+  color: #742312;
 }
 .deleteItem:hover {
   transform: scale(1.2);
@@ -103,9 +104,18 @@ textarea::placeholder {
   margin: 10px 30px;
   text-align: center;
 }
-
+.todoFormContainer {
+  background: linear-gradient(
+    315deg,
+    rgb(55 159 155 / 32%) 11%,
+    #0b060670 100%
+  );
+  position: relative;
+  padding: 30px;
+}
 .deadline {
   margin: 8px 5px 5px auto;
+  font-weight: 600;
 }
 .addBtn {
   margin: 10px 0 0;
@@ -117,6 +127,7 @@ textarea::placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 5;
 }
 
 .modalbtnWrp {

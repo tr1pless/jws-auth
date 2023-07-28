@@ -12,4 +12,5 @@ export const modalCustomStyles = {
     width: '400px',
     overflow: 'none',
   },
+  overlay: { zIndex: 1000 },
 }
