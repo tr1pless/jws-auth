@@ -85,10 +85,7 @@ function TodoList() {
     if (choice === true) {
       closeModal()
       deleteHandler(id)
-      console.log(id, choice, 'esli da')
     } else {
-      console.log(id, choice, 'esli net')
-
       e.preventDefault()
       closeModal()
     }
@@ -211,7 +208,7 @@ function TodoList() {
         >
           {modalContent}
         </Modal>
-        <div style={{ position: 'relative' }}>
+        <div className={s.todoFormContainer} style={{ position: 'relative' }}>
           <button
             style={
               refresh
@@ -266,7 +263,7 @@ function TodoList() {
                             style={
                               item.expired
                                 ? { color: 'red' }
-                                : { color: 'black' }
+                                : { color: '#080941' }
                             }
                           >
                             {item.deadline ? item.deadline : 'without deadline'}

@@ -49,10 +49,13 @@
 }
 .activeDay {
   width: 300px;
-  height: 450px;
-  background-color: gray;
+  height: 444px;
+  background: linear-gradient(66deg, rgb(36 19 56 / 99%) 11%, #320d0d 100%);
+  color: #df7676;
+  box-shadow: inset 0px 0px 41px 10px rgb(29 4 11 / 98%);
   transition: all 1s;
   z-index: 1;
+  border: 3px solid #2a010a;
   margin: 90px auto 50px 0px;
 }
 .active {
@@ -90,4 +93,22 @@
 
   height: 100%;
   white-space: pre-wrap;
+}
+
+.activeDayContainer {
+  text-align: center;
+}
+
+.activeDayTime {
+  text-align: right;
+  margin: 20px 10px 0 0;
+}
+.activeDayTitle {
+  margin: 10px auto;
+  font-size: 19px;
+  font-weight: 500;
+}
+.activeDayDesc {
+  font-size: 17px;
+  margin: 5px;
 }

@@ -35,7 +35,6 @@ export default class Store {
   }
   setTodoListArray(array: any[]) {
     this.todoListArray = array
-    console.log('store listarr')
   }
   setRefresh(bool: boolean) {
     this.refresh = bool
@@ -153,7 +152,7 @@ export default class Store {
     try {
       const response = await TodoService.checkDeadline(id)
     } catch (e: any) {
-      console.log(e.response?.data?.message, 'deadline check error')
+      console.log(e.response?.data?.message)
     }
   }
 }

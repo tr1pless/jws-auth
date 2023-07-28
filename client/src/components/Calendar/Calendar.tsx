@@ -60,7 +60,11 @@ export const Calendar = () => {
   const todoItemTime = (i: string) => {
     const hours = moment(i).hours()
     const minutes = moment(i).minutes()
-    const time = `${hours}:${minutes}`
+    // const time = `${hours < 10 ? '0' : hours}:${minutes === 0 ? '00' : minutes}`
+    const hoursString = hours < 10 ? `0${hours}` : `${hours}`
+    const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`
+    const time = `${hoursString}:${minutesString}`
+
     return time
   }
   let days: number[] = []
@@ -107,7 +111,6 @@ export const Calendar = () => {
               time: todoItemTime(item.deadline),
             })
             setCalendarItems([...todoArr])
-            console.log(todoArr[0].month)
           }
         },
       )
@@ -116,7 +119,6 @@ export const Calendar = () => {
 
   const dayClickHandler = (day: number, month: number) => {
     let activeArr: CalendarItems[] = []
-
     calendarItems.filter((item) => {
       if (item.day === day && +item.month === month) {
         setActive(!active)
@@ -127,27 +129,16 @@ export const Calendar = () => {
           month: item.month,
           time: item.time,
         })
-        setActiveDay([...activeArr])
-        console.log(
-          `deadline:${item.day}.${item.month} ${item.time} `,
 
-          activeArr,
-        )
+        setActiveDay([...activeArr])
       }
     })
+
     setPrevDay(`${day}.${month}`)
-    console.log(activeDay, 'activeDay state', `prevDay : ${prevDay}`)
+
     activeArr = []
   }
-  const nextMonth = () => {
-    setMonth(`${+month + 1}`)
-    console.log(month)
-  }
-  const prevMonth = () => {
-    setMonth(`${+month - 1}`)
 
-    console.log(month)
-  }
   return (
     <>
       <div className={s.calendarWrp}>
@@ -166,13 +157,14 @@ export const Calendar = () => {
                 key={nanoid()}
               >
                 <>
-                  <p>{day}</p>
+                  <p>
+                    {day}.{month.length === 1 ? `0${month}` : month}
+                  </p>
                   {calendarItems.map((item) => {
                     if (item.day === day) {
                       return (
                         <div className={s.calendarTodo} key={nanoid()}>
                           <p className={s.calendarTitle}>{item.title}</p>
-                          {/* <p className={s.calendarDesc}>{item.description}</p> */}
                         </div>
                       )
                     }
@@ -193,10 +185,12 @@ export const Calendar = () => {
             ? activeDay.map((item) => {
                 if (activeDay.length !== 0) {
                   return (
-                    <div key={nanoid()}>
-                      <p>
+                    <div className={s.activeDayContainer} key={nanoid()}>
+                      <p className={s.activeDayTitle}>{item.title}</p>
+                      <p className={s.activeDayDesc}>{item.description}</p>
+                      <p className={s.activeDayTime}>
                         {item.day < 10 ? '0' + item.day : item.day}.
-                        {item.month < 10 ? '0' + item.month : item.month}:
+                        {item.month < 10 ? '0' + item.month : item.month}T
                         {item.time}
                       </p>
                     </div>
