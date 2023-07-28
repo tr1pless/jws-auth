@@ -1,0 +1,21 @@
+* {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.container {
+  z-index: 5;
+  display: flex;
+  width: 1024px;
+  min-height: 100vh;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+#root {
+  position: relative;
+}
