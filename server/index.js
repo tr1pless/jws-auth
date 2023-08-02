@@ -20,7 +20,7 @@ app.use(cookieParser())
    credentials: true,
       origin: process.env.CLIENT_URL, 
  methods: 'GET, POST', 
- allowedHeaders: '*', 
+ allowedHeaders: 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization', 
  credentials: true, 
  optionsSuccessStatus: 200,
   }
