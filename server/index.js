@@ -15,10 +15,11 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
  app.use(
-  cors({    credentials: true,
+  cors({    
+   credentials: true,
       origin: process.env.CLIENT_URL, 
  methods: 'GET, POST', 
- allowedHeaders: 'Content-Type', 
+ allowedHeaders: '*', 
  credentials: true, 
  optionsSuccessStatus: 200,
   }), )
