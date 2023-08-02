@@ -64,6 +64,7 @@ class UserController {
       return res.json(userData)
     } catch (e) {
       next(e)
+console.log(res?.data?.message)
     }
   }
   async getUsers(req, res, next) {
