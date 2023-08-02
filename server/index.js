@@ -18,7 +18,7 @@ app.use(cookieParser())
   cors(
    {    
    credentials: true,
-      origin: 'https://sparkling-narwhal-d051c0.netlify.app/', 
+      origin: process.env.CLIENT_URL, 
  methods: 'GET, POST', 
  allowedHeaders: '*', 
  credentials: true, 
