@@ -16,14 +16,14 @@ app.use(express.json())
 app.use(cookieParser())
  app.use(
   cors(
- //   {    
- //   credentials: true,
- //      origin: process.env.CLIENT_URL, 
- // methods: 'GET, POST', 
- // allowedHeaders: '*', 
- // credentials: true, 
- // optionsSuccessStatus: 200,
- //  }
+   {    
+   credentials: true,
+      origin: 'https://sparkling-narwhal-d051c0.netlify.app/', 
+ methods: 'GET, POST', 
+ allowedHeaders: '*', 
+ credentials: true, 
+ optionsSuccessStatus: 200,
+  }
   ) )
 app.use('/api', router)
 app.use(errorMiddleware)
