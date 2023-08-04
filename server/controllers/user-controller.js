@@ -25,12 +25,13 @@ class UserController {
     try {
       const { email, password } = req.body
       const userData = await userService.login(email, password)
+console.log('refresh token in login function', userData)
       res.cookie('refreshToken', userData.refreshToken, {
 domain:'jwtauthtodo.online',
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       })
-console.log('refresh token in login function', userData)
+
       return res.json(userData)
     } catch (e) {
       next(e)
