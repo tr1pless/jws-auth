@@ -30,6 +30,7 @@ domain:'jwtauthtodo.online',
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       })
+console.log('refresh token in login function', userData)
       return res.json(userData)
     } catch (e) {
       next(e)
