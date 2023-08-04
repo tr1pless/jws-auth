@@ -15,6 +15,7 @@ class UserController {
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+sameSite:'none',
       })
       return res.json(userData)
     } catch (e) {
@@ -25,11 +26,12 @@ class UserController {
     try {
       const { email, password } = req.body
       const userData = await userService.login(email, password)
-console.log('refresh token in login function', userData)
+
       res.cookie('refreshToken', userData.refreshToken, {
-domain:'jwtauthtodo.online',
+
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+sameSite:'none',
       })
 
       return res.json(userData)
@@ -63,6 +65,7 @@ domain:'jwtauthtodo.online',
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+sameSite:'none',
       })
       return res.json(userData)
     } catch (e) {
