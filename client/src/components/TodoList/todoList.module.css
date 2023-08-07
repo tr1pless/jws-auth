@@ -91,14 +91,17 @@ textarea::placeholder {
   display: flex;
 }
 .activeItem {
+  overflow: hidden;
   transition: 2s;
   opacity: 1;
   margin: 10px 30px;
   text-align: center;
 }
 .disabledItem {
+  overflow: hidden;
   position: absolute;
   right: -300%;
+  width: 0;
   transition: 1s;
   opacity: 0;
   margin: 10px 30px;

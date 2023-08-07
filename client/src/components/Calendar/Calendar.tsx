@@ -161,7 +161,7 @@ export const Calendar = () => {
                     {day}.{month.length === 1 ? `0${month}` : month}
                   </p>
                   {calendarItems.map((item) => {
-                    if (item.day === day) {
+                    if (item.day === day && item.month === +month) {
                       return (
                         <div className={s.calendarTodo} key={nanoid()}>
                           <p className={s.calendarTitle}>{item.title}</p>

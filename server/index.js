@@ -11,22 +11,22 @@ const router = require('./router/index')
 const errorMiddleware = require('./middlewares/error-middleware')
 const PORT = process.env.PORT || 5000
 const app = express()
-app.set("trust proxy", 1)
+app.set('trust proxy', 1)
 
 app.use(express.json())
 app.use(cookieParser())
 
- app.use(
-  cors(
-   {    
-   credentials: true,
-      origin: process.env.CLIENT_URL, 
- methods: 'GET, POST', 
- allowedHeaders: 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization', 
- credentials: true, 
- optionsSuccessStatus: 200,
-  }
-  ) )
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+    methods: 'GET, POST',
+    allowedHeaders:
+      'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization',
+    credentials: true,
+    optionsSuccessStatus: 200,
+  }),
+)
 app.use('/api', router)
 app.use(errorMiddleware)
 

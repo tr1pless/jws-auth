@@ -3,6 +3,7 @@ import { apiDefineProperty } from 'mobx/dist/internal'
 import { AuthResponse } from '../models/response/AuthResponse'
 
 export const API_URL = 'https://jwt-auth-node-todo.onrender.com/api'
+// export const API_URL = 'http://localhost:5000/api'
 
 const $api = axios.create({
   withCredentials: true,
